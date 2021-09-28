@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
+
 const Body = styled.div`
   display: flex;
   flex-direction: column;

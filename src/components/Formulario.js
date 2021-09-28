@@ -3,7 +3,15 @@ import React from "react";
 import styled from "styled-components";
 import { url, headers } from "../components/Constants";
 
+
 const Div = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+`
+
+const DivCard = styled.div`
   background-color: #fffffe;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -31,17 +39,19 @@ const RightSide = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+  margin: 0 auto;
 `;
 
 const Forms = styled.form`
   /* background-color: #fbf0ef; */
 
   h3 {
+    text-align: center;
     color: #121629;
   }
 
   div {
-    width: 320px;
+   /* width: 320px;*/
     /* background-color: black; */
     margin-bottom: 15px;
   }
@@ -63,12 +73,22 @@ const Forms = styled.form`
     cursor: pointer;
     background-color: #eebbc3;
     color: #232946;
-    font-weight: 500;
+    font-weight: 700;
     border: none;
     outline: 0;
     color: #232946;
-  }
+    border-radius: 6px;
+    transition: all 0.2s ease-in 50ms ;
+    &:hover{
+      background-color: #F6DDE1;
+      transition: all 0.2s ease-out 50ms;
+    };
+  } 
 `;
+
+const DivCadastro = styled.div`
+  text-align: center;
+`
 
 export default class Form extends React.Component {
   state = {
@@ -128,9 +148,9 @@ export default class Form extends React.Component {
           dataInicio: "",
         });
 
-        this.props.getAllJobs();
-        alert("Deu certo!");
-        console.log(res.data);
+        /* this.props.getAllJobs();
+          alert("Deu certo!");
+          console.log(res.data);*/
       })
       .catch((err) => {
         console.log(err.response.data.message);
@@ -141,67 +161,71 @@ export default class Form extends React.Component {
   render() {
     return (
       <Div>
-        <LeftSide>
-          <p>
-            Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
-            Ninha
-          </p>
-        </LeftSide>
+        <DivCard>
 
-        <RightSide>
-          <Forms>
-            <h3>Preencha o formulário</h3>
+          <LeftSide>
+            <p>
+              Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
+              Ninja
+            </p>
+          </LeftSide>
 
-            <div>
+          <RightSide>
+            <Forms>
+              <h3>Preencha o formulário</h3>
+
+              <div>
+                <input
+                  type="text"
+                  placeholder="Título"
+                  value={this.state.titulo}
+                  onChange={this.handleTitulo}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Descrição"
+                  value={this.state.descricao}
+                  onChange={this.handleDescricao}
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Preço"
+                  value={this.state.preco}
+                  onChange={this.handlePreco}
+                />
+              </div>
+
+              <label>
+                Forma de pagamento:
+                <select
+                  multiple
+                  value={this.state.metodoDePagamento}
+                  onChange={this.handleMetodoDePagamento}
+                >
+                  <option>Cartão de Crédito</option>
+                  <option>Cartão de Débito</option>
+                  <option>Boleto Bancário</option>
+                  <option>PayPal</option>
+                  <option>Pix</option>
+                  <option>Bitcoin</option>
+                </select>
+              </label>
+
               <input
-                type="text"
-                placeholder="Título"
-                value={this.state.titulo}
-                onChange={this.handleTitulo}
+                type="date"
+                value={this.state.dataInicio}
+                onChange={this.handleDataInicio}
               />
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Descrição"
-                value={this.state.descricao}
-                onChange={this.handleDescricao}
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                placeholder="Preço"
-                value={this.state.preco}
-                onChange={this.handlePreco}
-              />
-            </div>
-
-            <label>
-              Forma de pagamento:
-              <select
-                multiple
-                value={this.state.metodoDePagamento}
-                onChange={this.handleMetodoDePagamento}
-              >
-                <option>Cartão de Crédito</option>
-                <option>Cartão de Débito</option>
-                <option>Boleto Bancário</option>
-                <option>PayPal</option>
-                <option>Pix</option>
-                <option>Bitcoin</option>
-              </select>
-            </label>
-
-            <input
-              type="date"
-              value={this.state.dataInicio}
-              onChange={this.handleDataInicio}
-            />
-
-            <button onClick={() => this.cadastrarApi()}>Cadastrar</button>
-          </Forms>
-        </RightSide>
+              <DivCadastro>
+                <button onClick={() => this.cadastrarApi()}>Cadastrar</button>
+              </DivCadastro>
+            </Forms>
+          </RightSide>
+        </DivCard>
       </Div>
     );
   }

@@ -5,11 +5,21 @@ import { url, headers } from "./components/Constants";
 import ListaDeServicos from "./components/ListaDeServicos";
 import Home from "./components/Home";
 import Form from "./components/Formulario";
+import Header from "./components/Header";
 
 const ContainerGeral = styled.div`
+  @import url('https://fonts.googleapis.com/css2?family=Gluten&display=swap');
+
   box-sizing: border-box;
   background-color: #232946;
   min-height: 100vh;
+  
+  h1{
+    font-family: 'Gluten', cursive; 
+    color: #b8c1ec;
+    font-size: 4rem;
+    margin-top: 100px;
+  }
 `;
 
 export default class App extends Component {
@@ -111,6 +121,7 @@ export default class App extends Component {
   render() {
     return (
       <ContainerGeral>
+        <Header />
         {/* <ListaDeServicos
           inputBuscaListaDeServicos={this.state.inputBuscaListaDeServicos}
           pesquisarServicoNaLista={this.pesquisarServicoNaLista}
