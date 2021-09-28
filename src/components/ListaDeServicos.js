@@ -67,7 +67,7 @@ const DisposicaoDaListaDeServicos = styled.div`
     row-gap: 40px;
     background-color: #b8c1ec;
     max-width: 100vw;
-    /* min-height: 70vh; */
+    min-height: 90vh;
     padding: 50px 100px;
     justify-content: center;
     /* align-items: center; */
@@ -134,7 +134,9 @@ export default class ListaDeServicos extends Component {
     render() {
         const listaDeServicosAVenda = this.props.listaDeServicos.map((servico, index)=>{
         return (
-            <ContainerDoServico key={index}>
+            <ContainerDoServico 
+            onClick={() => this.props.entrarNosDetalhesDoJobEscolhido(servico)} 
+            key={index}>
     
                 <h5>{servico.title}</h5>
                 <img alt="Imagem gerada de forma aleatória" src={this.props.randomLink()}></img>
@@ -143,7 +145,11 @@ export default class ListaDeServicos extends Component {
                     <p><strong>Preço: </strong>R${servico.price}</p>
                 </div>
 
-                <button><strong>Adicionar ao Carrinho</strong></button>
+                <button type="button" onClick={(e) => { e.stopPropagation();
+                this.props.adicionarCarrinho()
+                }}>
+                    <strong>Adicionar ao Carrinho</strong>
+                </button>
             </ContainerDoServico>
 
         )
