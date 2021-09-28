@@ -128,7 +128,8 @@ export default class Form extends React.Component {
     console.log("datainicio");
   };
 
-  cadastrarApi = () => {
+  cadastrarApi = (event) => {
+    event.preventDefault()
     const body = {
       title: this.state.titulo,
       description: this.state.descricao,
@@ -161,6 +162,7 @@ export default class Form extends React.Component {
   render() {
     return (
       <Div>
+
         <DivCard>
 
           <LeftSide>
@@ -215,17 +217,77 @@ export default class Form extends React.Component {
                 </select>
               </label>
 
+
+        <LeftSide>
+          <p>
+            Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
+            Ninha
+          </p>
+        </LeftSide>
+
+        <RightSide>
+          <Forms onSubmit={this.cadastrarApi}>
+            <h3>Preencha o formulário</h3>
+
+            <div>
+              <input
+                type="text"
+                placeholder="Título"
+                value={this.state.titulo}
+                onChange={this.handleTitulo}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Descrição"
+                value={this.state.descricao}
+                onChange={this.handleDescricao}
+              />
+            </div>
+            <div>
+
               <input
                 type="date"
                 value={this.state.dataInicio}
                 onChange={this.handleDataInicio}
               />
+
               <DivCadastro>
                 <button onClick={() => this.cadastrarApi()}>Cadastrar</button>
               </DivCadastro>
             </Forms>
           </RightSide>
         </DivCard>
+
+            </div>
+
+            <label>
+              Forma de pagamento:
+              <select
+                multiple
+                value={this.state.metodoDePagamento}
+                onChange={this.handleMetodoDePagamento}
+              >
+                <option>Cartão de Crédito</option>
+                <option>Cartão de Débito</option>
+                <option>Boleto Bancário</option>
+                <option>PayPal</option>
+                <option>Pix</option>
+                <option>Bitcoin</option>
+              </select>
+            </label>
+
+            <input
+              type="date"
+              value={this.state.dataInicio}
+              onChange={this.handleDataInicio}
+            />
+
+            <button type="submit">Cadastrar</button>
+          </Forms>
+        </RightSide>
+
       </Div>
     );
   }
