@@ -3,13 +3,12 @@ import React from "react";
 import styled from "styled-components";
 import { url, headers } from "../components/Constants";
 
-
 const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-`
+`;
 
 const DivCard = styled.div`
   background-color: #fffffe;
@@ -51,7 +50,7 @@ const Forms = styled.form`
   }
 
   div {
-   /* width: 320px;*/
+    /* width: 320px;*/
     /* background-color: black; */
     margin-bottom: 15px;
   }
@@ -78,17 +77,17 @@ const Forms = styled.form`
     outline: 0;
     color: #232946;
     border-radius: 6px;
-    transition: all 0.2s ease-in 50ms ;
-    &:hover{
-      background-color: #F6DDE1;
+    transition: all 0.2s ease-in 50ms;
+    &:hover {
+      background-color: #f6dde1;
       transition: all 0.2s ease-out 50ms;
-    };
-  } 
+    }
+  }
 `;
 
 const DivCadastro = styled.div`
   text-align: center;
-`
+`;
 
 export default class Form extends React.Component {
   state = {
@@ -129,7 +128,7 @@ export default class Form extends React.Component {
   };
 
   cadastrarApi = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const body = {
       title: this.state.titulo,
       description: this.state.descricao,
@@ -162,18 +161,16 @@ export default class Form extends React.Component {
   render() {
     return (
       <Div>
-
         <DivCard>
-
           <LeftSide>
             <p>
               Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
-              Ninja
+              Ninha
             </p>
           </LeftSide>
 
           <RightSide>
-            <Forms>
+            <Forms onSubmit={this.cadastrarApi}>
               <h3>Preencha o formulário</h3>
 
               <div>
@@ -192,6 +189,7 @@ export default class Form extends React.Component {
                   onChange={this.handleDescricao}
                 />
               </div>
+
               <div>
                 <input
                   type="number"
@@ -217,36 +215,6 @@ export default class Form extends React.Component {
                 </select>
               </label>
 
-
-        <LeftSide>
-          <p>
-            Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
-            Ninha
-          </p>
-        </LeftSide>
-
-        <RightSide>
-          <Forms onSubmit={this.cadastrarApi}>
-            <h3>Preencha o formulário</h3>
-
-            <div>
-              <input
-                type="text"
-                placeholder="Título"
-                value={this.state.titulo}
-                onChange={this.handleTitulo}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Descrição"
-                value={this.state.descricao}
-                onChange={this.handleDescricao}
-              />
-            </div>
-            <div>
-
               <input
                 type="date"
                 value={this.state.dataInicio}
@@ -254,40 +222,11 @@ export default class Form extends React.Component {
               />
 
               <DivCadastro>
-                <button onClick={() => this.cadastrarApi()}>Cadastrar</button>
+                <button type="submit">Cadastrar</button>
               </DivCadastro>
             </Forms>
           </RightSide>
         </DivCard>
-
-            </div>
-
-            <label>
-              Forma de pagamento:
-              <select
-                multiple
-                value={this.state.metodoDePagamento}
-                onChange={this.handleMetodoDePagamento}
-              >
-                <option>Cartão de Crédito</option>
-                <option>Cartão de Débito</option>
-                <option>Boleto Bancário</option>
-                <option>PayPal</option>
-                <option>Pix</option>
-                <option>Bitcoin</option>
-              </select>
-            </label>
-
-            <input
-              type="date"
-              value={this.state.dataInicio}
-              onChange={this.handleDataInicio}
-            />
-
-            <button type="submit">Cadastrar</button>
-          </Forms>
-        </RightSide>
-
       </Div>
     );
   }
