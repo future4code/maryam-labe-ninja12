@@ -5,91 +5,13 @@ import { url, key } from './components/Constants'
 import ListaDeServicos from './components/ListaDeServicos';
 
 const ContainerGeral = styled.div`
-min-height: 100vh;
-min-width: 100vw;
+	box-sizing: border-box;
 `
 
 export default class App extends Component {
 
 	state={
 		listaDeServicos:[
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
-			{
-				title: 'Desenvolvimento de Softwares',
-				description: 'Elaboração e desenvolvimento de softwares tanto no frontend quanto backend.',
-				price: 500.00,
-				paymentMethods: 'Cartão de Crédito',
-				dueDate: '2021/12/31',
-			},
 		],
 		inputBuscaListaDeServicos: '',
 		inputFiltroValorMinimo: '',
@@ -98,22 +20,22 @@ export default class App extends Component {
 		filtroOrdenacao: '',
 	};
 
-	// getAllJobs = async () =>{
+	getAllJobs = async () =>{
 
-	// 	console.log(url + "/jobs")
+		console.log(url + "/jobs")
 
-	// 	await axios.get((url + "/jobs"), key,
-	// 	).then((response) => {
-	// 		console.log(response)
-	// 		this.setState({ listaDeServicos: response.data.jobs })
-	// 	}).catch((error) => {
-	// 		alert(error)
-	// 	})
-	// };
+		await axios.get((url + "/jobs"), key,
+		).then((response) => {
+			console.log(response)
+			this.setState({ listaDeServicos: response.data.jobs })
+		}).catch((error) => {
+			alert(error)
+		})
+	};
 
-	// componentDidMount = () => {
-	// 	this.getAllJobs()
-	// };
+	componentDidMount = () => {
+		this.getAllJobs()
+	};
 
 	onChangeInputBuscaListaDeServicos = (event) =>{
 		this.setState({ inputBuscaListaDeServicos: event.target.value })
@@ -141,7 +63,7 @@ export default class App extends Component {
 		
 		console.log(dia + "/" + mes + "/" + ano)
 		return (dia + "/" + mes + "/" + ano)
-	  }
+	}
 
 	render() {
 		

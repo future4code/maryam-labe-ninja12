@@ -5,12 +5,13 @@ const Body = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #232946;
-    min-width: 100vw;
-    min-height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
     box-sizing: border-box;
 `
 
 const Header = styled.div`
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,11 +24,12 @@ const Header = styled.div`
     }
 `
 const Filtros = styled.div`
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     /* max-width: 80%; */
-    min-height: 100px;
+    min-height: 60px;
     padding: 0 50px;
     div {
         display: flex;
@@ -41,6 +43,7 @@ const Filtros = styled.div`
         background-color: #b8c1ec;
         border-radius: 7px;
         padding: 2px 8px;
+        font-weight: bold;
     }
     input:nth-child(3){
     min-width: 200px;
@@ -51,15 +54,16 @@ const Filtros = styled.div`
         background-color: #b8c1ec;
         border-radius: 7px;
         padding: 2px 8px;
+        font-weight: bold;
     }
 `
 
 const DisposicaoDaListaDeServicos = styled.div`
-    box-sizing: content-box;
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(5, minmax(200px, 300px));
+    grid-template-columns: repeat(5, 200px);
     grid-template-rows: 1fr 1fr;
-    column-gap: 0px;
+    column-gap: 30px;
     row-gap: 40px;
     background-color: #b8c1ec;
     max-width: 100vw;
