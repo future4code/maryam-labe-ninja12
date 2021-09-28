@@ -108,7 +108,8 @@ export default class Form extends React.Component {
     console.log("datainicio");
   };
 
-  cadastrarApi = () => {
+  cadastrarApi = (event) => {
+    event.preventDefault()
     const body = {
       title: this.state.titulo,
       description: this.state.descricao,
@@ -149,7 +150,7 @@ export default class Form extends React.Component {
         </LeftSide>
 
         <RightSide>
-          <Forms>
+          <Forms onSubmit={this.cadastrarApi}>
             <h3>Preencha o formulário</h3>
 
             <div>
@@ -199,7 +200,7 @@ export default class Form extends React.Component {
               onChange={this.handleDataInicio}
             />
 
-            <button onClick={() => this.cadastrarApi()}>Cadastrar</button>
+            <button type="submit">Cadastrar</button>
           </Forms>
         </RightSide>
       </Div>
