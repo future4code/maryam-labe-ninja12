@@ -22,7 +22,6 @@ export default class App extends Component {
 		filtroOrdenacao: '',
 
 		jobEscolhido: [
-
 		],
 	};
 
@@ -63,11 +62,12 @@ export default class App extends Component {
     }
 
 	formatarStringParaData(data) {
-		let dia  = data.split("/")[2];
-		let mes  = data.split("/")[1];
-		let ano  = data.split("/")[0];
+		let dataSplit = data.split("-")
+		let dia  = dataSplit[2].slice(0, 2);
+		let mes  = dataSplit[1];
+		let ano  = dataSplit[0];
 		
-		console.log(dia + "/" + mes + "/" + ano)
+		console.log(dia)
 		return (dia + "/" + mes + "/" + ano)
 	}
 
@@ -80,9 +80,22 @@ export default class App extends Component {
 
 	}
 
+	trocarDePagina = (nomeDaPagina) => {
+
+		this.setState({ paginaEscolhida: nomeDaPagina })
+		this.paginaAtual()
+	}
+
 	adicionarCarrinho = () =>{
 		console.log("adicionar carrinho")
 	}
+
+	componentDidUpdate = (prevProps, prevState) => {
+
+		if (this.state.paginaEscolhida !== prevState.paginaEscolhida){
+			this.paginaAtual()
+		}	
+	};
 
 	paginaAtual = () => {
 		switch(this.state.paginaEscolhida){
@@ -99,12 +112,15 @@ export default class App extends Component {
 				randomLink = {this.randomLink}
 				adicionarCarrinho = {this.adicionarCarrinho}
 				paginaAtual = {this.paginaAtual}
+				trocarDePagina = {this.trocarDePagina}
+				formatarStringParaData = {this.formatarStringParaData}
 				/>
 			);
 			case "detalhesDoJob": return (
 				<DetalhesDoJob
 				jobEscolhido = {this.state.jobEscolhido}
 				paginaAtual = {this.paginaAtual}
+				trocarDePagina = {this.trocarDePagina}
 				/>
 			);
 			

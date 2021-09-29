@@ -21,6 +21,7 @@ const Header = styled.div`
         background-color: #b8c1ec;
         border-radius: 7px;
         padding: 2px 8px;
+        font-weight: bold;
     }
 `
 const Filtros = styled.div`
@@ -141,8 +142,8 @@ export default class ListaDeServicos extends Component {
                 <h5>{servico.title}</h5>
                 <img alt="Imagem gerada de forma aleatória" src={this.props.randomLink()}></img>
                 <div>
-                    <p><strong>Prazo: </strong>{() => this.props.formatarStringParaData(servico.dueDate)}</p>
-                    <p><strong>Preço: </strong>R${servico.price}</p>
+                    <p><strong>Prazo: </strong>{this.props.formatarStringParaData(servico.dueDate)}</p>
+                    <p><strong>Preço: </strong>R$ {servico.price}</p>
                 </div>
 
                 <button type="button" onClick={(e) => { e.stopPropagation();
