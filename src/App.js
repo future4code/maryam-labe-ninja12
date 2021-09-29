@@ -74,7 +74,8 @@ export default class App extends Component {
 	entrarNosDetalhesDoJobEscolhido = (job) => {
 
 		this.setState({ jobEscolhido: job })
-		this.setState({ paginaEscolhida: 2})
+		this.setState({ paginaEscolhida: "detalhesDoJob" })
+		this.paginaAtual()
 		console.log("esse é o job", this.state.jobEscolhido)
 
 	}
@@ -83,7 +84,7 @@ export default class App extends Component {
 		console.log("adicionar carrinho")
 	}
 
-	paginaAtual = (valorDaPagina) => {
+	paginaAtual = () => {
 		switch(this.state.paginaEscolhida){
 			case "home": return (
 				<ListaDeServicos
@@ -103,7 +104,7 @@ export default class App extends Component {
 			case "detalhesDoJob": return (
 				<DetalhesDoJob
 				jobEscolhido = {this.state.jobEscolhido}
-				paginaAtual = {this.state.paginaAtual}
+				paginaAtual = {this.paginaAtual}
 				/>
 			);
 			
