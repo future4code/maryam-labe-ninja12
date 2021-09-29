@@ -2,12 +2,19 @@ import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 import { url, headers } from "../components/Constants";
+import Cabecalho from "./Cabecalho";
+
+const ContainerGeral = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 90vh;
+  margin-top: 30px;
 `;
 
 const DivCard = styled.div`
@@ -28,6 +35,7 @@ const LeftSide = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   padding: 10px 25px;
   border-radius: 8px;
 `;
@@ -148,9 +156,10 @@ export default class Form extends React.Component {
           dataInicio: "",
         });
 
-        /* this.props.getAllJobs();
-          alert("Deu certo!");
-          console.log(res.data);*/
+        this.props.getAllJobs();
+        this.props.trocarDePagina("listaDeServicos");
+        alert("Deu certo!");
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err.response.data.message);
@@ -160,74 +169,80 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <Div>
-        <DivCard>
-          <LeftSide>
-            <p>
-              Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
-              Ninha
-            </p>
-          </LeftSide>
+      <ContainerGeral>
+          <Cabecalho
+              trocarDePagina={this.props.trocarDePagina}
+              paginaEscolhida={this.props.paginaEscolhida}
+            />
+        <Div>
+          <DivCard>
+            <LeftSide>
+              <p>
+                Cadastre seu serviço na LabeNinjas e tenha mais chances de ser um
+                Ninja
+              </p>
+            </LeftSide>
 
-          <RightSide>
-            <Forms onSubmit={this.cadastrarApi}>
-              <h3>Preencha o formulário</h3>
+            <RightSide>
+              <Forms onSubmit={this.cadastrarApi}>
+                <h3>Preencha o formulário</h3>
 
-              <div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Título"
+                    value={this.state.titulo}
+                    onChange={this.handleTitulo}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Descrição"
+                    value={this.state.descricao}
+                    onChange={this.handleDescricao}
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Preço"
+                    value={this.state.preco}
+                    onChange={this.handlePreco}
+                  />
+                </div>
+
+                <label>
+                  Forma de pagamento:
+                  <select
+                    multiple
+                    value={this.state.metodoDePagamento}
+                    onChange={this.handleMetodoDePagamento}
+                  >
+                    <option>Cartão de Crédito</option>
+                    <option>Cartão de Débito</option>
+                    <option>Boleto Bancário</option>
+                    <option>PayPal</option>
+                    <option>Pix</option>
+                    <option>Bitcoin</option>
+                  </select>
+                </label>
+
                 <input
-                  type="text"
-                  placeholder="Título"
-                  value={this.state.titulo}
-                  onChange={this.handleTitulo}
+                  type="date"
+                  value={this.state.dataInicio}
+                  onChange={this.handleDataInicio}
                 />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Descrição"
-                  value={this.state.descricao}
-                  onChange={this.handleDescricao}
-                />
-              </div>
 
-              <div>
-                <input
-                  type="number"
-                  placeholder="Preço"
-                  value={this.state.preco}
-                  onChange={this.handlePreco}
-                />
-              </div>
-
-              <label>
-                Forma de pagamento:
-                <select
-                  multiple
-                  value={this.state.metodoDePagamento}
-                  onChange={this.handleMetodoDePagamento}
-                >
-                  <option>Cartão de Crédito</option>
-                  <option>Cartão de Débito</option>
-                  <option>Boleto Bancário</option>
-                  <option>PayPal</option>
-                  <option>Pix</option>
-                  <option>Bitcoin</option>
-                </select>
-              </label>
-
-              <input
-                type="date"
-                value={this.state.dataInicio}
-                onChange={this.handleDataInicio}
-              />
-
-              <DivCadastro>
-                <button type="submit">Cadastrar</button>
-              </DivCadastro>
-            </Forms>
-          </RightSide>
-        </DivCard>
-      </Div>
+                <DivCadastro>
+                  <button type="submit">Cadastrar</button>
+                </DivCadastro>
+              </Forms>
+            </RightSide>
+          </DivCard>
+        </Div>
+      </ContainerGeral>
     );
   }
 }

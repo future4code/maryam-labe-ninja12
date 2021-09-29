@@ -2,39 +2,30 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { url, headers } from "./components/Constants";
-import ListaDeServicos from "./components/ListaDeServicos";
 import Home from "./components/Home";
 import Form from "./components/Formulario";
-import Header from "./components/Header";
+import Carrinho from "./components/Carrinho";
+import ListaDeServicos from "./components/ListaDeServicos";
 import DetalhesDoJob from './components/DetalhesDoJob';
+import Cabecalho from './components/Cabecalho'
 
 const ContainerGeral = styled.div`
-  @import url('https://fonts.googleapis.com/css2?family=Gluten&display=swap');
-
   box-sizing: border-box;
   background-color: #232946;
   min-height: 100vh;
-  
-  h1{
-    font-family: 'Gluten', cursive; 
-    color: #b8c1ec;
-    font-size: 4rem;
-    margin-top: 100px;
-  }
 `;
 
 export default class App extends Component {
   state = {
     listaDeServicos: [],
-    inputBuscaListaDeServicos: "",
-    inputFiltroValorMinimo: "",
-    InputFiltroValorMaximo: "",
+    inputBuscaPorNome: "",
+    inputValorMaximo: "",
     inputFiltroTituloOuDescricao: "",
-    filtroOrdenacao: "",
+    filtroOrdenacao: "title",
     paginaEscolhida: "home",
-    jobEscolhido: [
-
-		],
+    cart: [],
+    inputMinimumValue: "",
+    jobEscolhido: [],
   };
 
   getAllJobs = async () => {
@@ -43,7 +34,7 @@ export default class App extends Component {
     await axios
       .get(url + "/jobs", headers)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         this.setState({ listaDeServicos: response.data.jobs });
       })
       .catch((error) => {
@@ -55,8 +46,21 @@ export default class App extends Component {
     this.getAllJobs();
   };
 
-  onChangeInputBuscaListaDeServicos = (event) => {
-    this.setState({ inputBuscaListaDeServicos: event.target.value });
+  onChangeFiltroNome = (event) => {
+    this.setState({ inputBuscaPorNome: event.target.value });
+    console.log(this.state.inputBuscaPorNome);
+  };
+
+  onChangeFiltroMinimo = (event) => {
+    this.setState({ inputMinimumValue: event.target.value });
+  };
+
+  onChangeFiltroMaximo = (event) => {
+    this.setState({ inputValorMaximo: event.target.value });
+  };
+
+  atualizaFiltroOrdenacao = (event) => {
+    this.setState({ filtroOrdenacao: event.target.value });
   };
 
   funcaoDePesquisarComFiltro = (pesquisa) => {
@@ -75,13 +79,35 @@ export default class App extends Component {
   };
 
   formatarStringParaData(data) {
-    let dia = data.split("/")[2];
-    let mes = data.split("/")[1];
-    let ano = data.split("/")[0];
+		let dataSplit = data.split("-")
+		let dia  = dataSplit[2].slice(0, 2);
+		let mes  = dataSplit[1];
+		let ano  = dataSplit[0];
+		return (dia + "/" + mes + "/" + ano)
+	}
 
-    console.log(dia + "/" + mes + "/" + ano);
-    return dia + "/" + mes + "/" + ano;
-  }
+
+  addToCart = (servico) => {
+    const myCart = [...this.state.cart, servico];
+    this.setState({ cart: myCart });
+    alert(
+      `O serviço "${servico.title}"", no valor de R$${servico.price}, foi adicionado ao seu carrinho com sucesso!`
+    );
+    console.log(servico.title);
+    console.log(this.state.cart);
+  };
+
+  entrarNosDetalhesDoJobEscolhido = (job) => {
+
+		this.setState({ jobEscolhido: job })
+		this.setState({ paginaEscolhida: "detalhesDoJob" })
+
+	}
+
+  trocarDePagina = (nomeDaPagina) => {
+
+		this.setState({ paginaEscolhida: nomeDaPagina })
+	}
 
   paginaAtual = () => {
     switch (this.state.paginaEscolhida) {
@@ -91,87 +117,126 @@ export default class App extends Component {
             listaDeServicos={this.state.listaDeServicos}
             paginaEscolhida={this.state.paginaEscolhida}
             inputBuscaListaDeServicos={this.state.inputBuscaListaDeServicos}
-            onChangeInputBuscaListaDeServicos={this.onChangeInputBuscaListaDeServicos}
-            inputFiltroValorMinimo={this.state.inputFiltroValorMinimo}
-            InputFiltroValorMaximo={this.state.InputFiltroValorMaximo}
-            inputFiltroTituloOuDescricao={
-              this.state.inputFiltroTituloOuDescricao
-            }
+            inputValorMaximo={this.state.inputValorMaximo}
             filtroOrdenacao={this.state.filtroOrdenacao}
-            entrarNosDetalhesDoJobEscolhido={
-              this.entrarNosDetalhesDoJobEscolhido
-            }
+            atualizaFiltroOrdenacao={this.atualizaFiltroOrdenacao}
+            entrarNosDetalhesDoJobEscolhido={this.entrarNosDetalhesDoJobEscolhido}
             randomLink={this.randomLink}
             adicionarCarrinho={this.adicionarCarrinho}
+            addToCart={this.addToCart}
+            cart={this.state.cart}
+            handleLista={this.handleLista}
+            handleCarrinho={this.handleCarrinho}
+            inputBuscaPorNome={this.state.inputBuscaPorNome}
+            onChangeFiltroNome={this.onChangeFiltroNome}
+            onChangeFiltroMaximo={this.onChangeFiltroMaximo}
+            inputMinimumValue={this.state.inputMinimumValue}
+            onChangeFiltroMinimo={this.onChangeFiltroMinimo}
+            formatarStringParaData={this.formatarStringParaData}
+            trocarDePagina={this.trocarDePagina}
           />
         );
-      // case "detalhesJob":
-      //   return <DetalhesDoJob jobEscolhido={this.state.jobEscolhido} />;
       case "home":
-        return <Home handleCadastro={this.handleCadastro} />;
+        return (
+          <Home
+            handleCadastro={this.handleCadastro}
+            handleCarrinho={this.handleCarrinho}
+            handleLista={this.handleLista}
+            trocarDePagina={this.trocarDePagina}
+            paginaEscolhida={this.state.paginaEscolhida}
+          />
+        );
       case "cadastro":
         return (
           <Form
             handleCadastro={this.handleCadastro}
             getAllJobs={this.getAllJobs}
+            handleLista={this.handleLista}
+            trocarDePagina={this.trocarDePagina}
           />
         );
+      case "carrinho":
+        return (
+          <Carrinho
+            listaDeServicos={this.state.listaDeServicos}
+            cart={this.state.cart}
+            handleLista={this.handleLista}
+            cleanCart={this.cleanCart}
+            paginaEscolhida={this.state.paginaEscolhida}
+            onClickDeleteCart={this.onClickDeleteCart}
+            onClickCheckout={this.onClickCheckout}
+            trocarDePagina={this.trocarDePagina}
+          />);
+        
+        case "detalhesDoJob": 
+        return (
+          <DetalhesDoJob
+          jobEscolhido = {this.state.jobEscolhido}
+          paginaAtual = {this.paginaAtual}
+          trocarDePagina = {this.trocarDePagina}
+          randomLink = {this.randomLink}
+          addToCart={this.addToCart}
+          />
+        );
+      default:
+        return alert("Houve um erro. Tente novamente mais tarde!");
     }
+  };
+
+  onChangeFiltroMaximo = (event) => {
+    this.setState({ inputValorMaximo: event.target.value });
+    console.log(this.state.inputValorMaximo);
+  };
+
+  onChangeFiltroMinimo = (event) => {
+    this.setState({ inputMinimumValue: event.target.value });
+    console.log(this.state.inputMinimumValue);
+  };
+
+  handleCarrinho = () => {
+    this.setState({ paginaEscolhida: "carrinho" });
+  };
+
+  handleLista = () => {
+    this.setState({ paginaEscolhida: "listaDeServicos" });
   };
 
   handleCadastro = () => {
     this.setState({ paginaEscolhida: "cadastro" });
   };
 
-	entrarNosDetalhesDoJobEscolhido = (job) => {
+  cleanCart = () => {
+    if (
+      window.confirm(
+        `Deseja mesmo excluir todos os itens do seu carrinho? Se desejar remover algum item em específico, acesse seu carrinho e clique em "Remover" ao lado do item.`
+      )
+    ) {
+      this.setState({ cart: [], paginaEscolhida: "listaDeServicos" });
+      alert(
+        `Seu carrinho foi esvaziado com sucesso! Você será redirecionado para a página com a lista de serviços`
+      );
+      console.log("Limpou carrinho");
+      console.log(this.state.cart);
+    }
+  };
 
-		this.setState({ jobEscolhido: job })
-		this.setState({ paginaEscolhida: "detalhesDoJob" })
-		this.paginaAtual()
-		console.log("esse é o job", this.state.jobEscolhido)
+  onClickDeleteCart = (id, title) => {
+    if (window.confirm(`Tem certeza que deseja remover o produto "${title}"?`)) {
+      const newCart = this.state.cart.filter((cartItem) => {
+        return cartItem.id !== id
+      })
+      this.setState({ cart: newCart })
+    }
+  }
 
-	}
+  onClickCheckout = () => {
+    if (window.confirm(`Deseja mesmo finalizar a sua compra e ir para o pagamento?`)) {
+      this.setState({ cart: [], paginaEscolhida: "listaDeServicos" })
+      alert(`Compra finalizada com sucesso. Você receberá por e-mail os contatos do profissional contratado!`)
+    }
+  }
 
-	adicionarCarrinho = () =>{
-		console.log("adicionar carrinho")
-	}
-
-	paginaAtual = () => {
-		switch(this.state.paginaEscolhida){
-			case "home": return (
-				<ListaDeServicos
-				listaDeServicos = {this.state.listaDeServicos}
-				paginaEscolhida = {this.state.paginaEscolhida}
-				inputBuscaListaDeServicos = {this.state.inputBuscaListaDeServicos}
-				inputFiltroValorMinimo = {this.state.inputFiltroValorMinimo}
-				InputFiltroValorMaximo = {this.state.InputFiltroValorMaximo}
-				inputFiltroTituloOuDescricao = {this.state.inputFiltroTituloOuDescricao}
-				filtroOrdenacao = {this.state.filtroOrdenacao}
-				entrarNosDetalhesDoJobEscolhido = {this.entrarNosDetalhesDoJobEscolhido}
-				randomLink = {this.randomLink}
-				adicionarCarrinho = {this.adicionarCarrinho}
-				paginaAtual = {this.paginaAtual}
-				/>
-			);
-			case "detalhesDoJob": return (
-				<DetalhesDoJob
-				jobEscolhido = {this.state.jobEscolhido}
-				paginaAtual = {this.paginaAtual}
-				/>
-			);
-			
-		};
-	}
-	
-	DetalhesDoJob
-
-	render() {
-		
-		return (
-			<ContainerGeral>
-        <Header />
-				{this.paginaAtual()}
-			</ContainerGeral>
-		)
-	}
+  render() {
+    return <ContainerGeral>{this.paginaAtual()}</ContainerGeral>;
+  }
 }
