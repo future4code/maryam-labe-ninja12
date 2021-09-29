@@ -6,6 +6,7 @@ import ListaDeServicos from "./components/ListaDeServicos";
 import Home from "./components/Home";
 import Form from "./components/Formulario";
 import Header from "./components/Header";
+import DetalhesDoJob from './components/DetalhesDoJob';
 
 const ContainerGeral = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Gluten&display=swap');
@@ -31,6 +32,9 @@ export default class App extends Component {
     inputFiltroTituloOuDescricao: "",
     filtroOrdenacao: "",
     paginaEscolhida: "home",
+    jobEscolhido: [
+
+		],
   };
 
   getAllJobs = async () => {
@@ -87,6 +91,7 @@ export default class App extends Component {
             listaDeServicos={this.state.listaDeServicos}
             paginaEscolhida={this.state.paginaEscolhida}
             inputBuscaListaDeServicos={this.state.inputBuscaListaDeServicos}
+            onChangeInputBuscaListaDeServicos={this.onChangeInputBuscaListaDeServicos}
             inputFiltroValorMinimo={this.state.inputFiltroValorMinimo}
             InputFiltroValorMaximo={this.state.InputFiltroValorMaximo}
             inputFiltroTituloOuDescricao={
@@ -118,23 +123,55 @@ export default class App extends Component {
     this.setState({ paginaEscolhida: "cadastro" });
   };
 
-  render() {
-    return (
-      <ContainerGeral>
+	entrarNosDetalhesDoJobEscolhido = (job) => {
+
+		this.setState({ jobEscolhido: job })
+		this.setState({ paginaEscolhida: "detalhesDoJob" })
+		this.paginaAtual()
+		console.log("esse é o job", this.state.jobEscolhido)
+
+	}
+
+	adicionarCarrinho = () =>{
+		console.log("adicionar carrinho")
+	}
+
+	paginaAtual = () => {
+		switch(this.state.paginaEscolhida){
+			case "home": return (
+				<ListaDeServicos
+				listaDeServicos = {this.state.listaDeServicos}
+				paginaEscolhida = {this.state.paginaEscolhida}
+				inputBuscaListaDeServicos = {this.state.inputBuscaListaDeServicos}
+				inputFiltroValorMinimo = {this.state.inputFiltroValorMinimo}
+				InputFiltroValorMaximo = {this.state.InputFiltroValorMaximo}
+				inputFiltroTituloOuDescricao = {this.state.inputFiltroTituloOuDescricao}
+				filtroOrdenacao = {this.state.filtroOrdenacao}
+				entrarNosDetalhesDoJobEscolhido = {this.entrarNosDetalhesDoJobEscolhido}
+				randomLink = {this.randomLink}
+				adicionarCarrinho = {this.adicionarCarrinho}
+				paginaAtual = {this.paginaAtual}
+				/>
+			);
+			case "detalhesDoJob": return (
+				<DetalhesDoJob
+				jobEscolhido = {this.state.jobEscolhido}
+				paginaAtual = {this.paginaAtual}
+				/>
+			);
+			
+		};
+	}
+	
+	DetalhesDoJob
+
+	render() {
+		
+		return (
+			<ContainerGeral>
         <Header />
-        {/* <ListaDeServicos
-          inputBuscaListaDeServicos={this.state.inputBuscaListaDeServicos}
-          pesquisarServicoNaLista={this.pesquisarServicoNaLista}
-          onChangeInputBuscaListaDeServicos={
-            this.onChangeInputBuscaListaDeServicos
-          }
-          funcaoDePesquisarComFiltro={this.funcaoDePesquisarComFiltro}
-          randomLink={this.randomLink}
-          listaDeServicos={this.state.listaDeServicos}
-          formatarStringParaData={this.formatarStringParaData}
-        /> */}
-        {this.paginaAtual()}
-      </ContainerGeral>
-    );
-  }
+				{this.paginaAtual()}
+			</ContainerGeral>
+		)
+	}
 }

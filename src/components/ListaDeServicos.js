@@ -60,20 +60,20 @@ const Filtros = styled.div`
 `;
 
 const DisposicaoDaListaDeServicos = styled.div`
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(5, 200px);
-  grid-template-rows: 1fr 1fr;
-  column-gap: 30px;
-  row-gap: 40px;
-  background-color: #b8c1ec;
-  max-width: 100vw;
-  /* min-height: 70vh; */
-  padding: 50px 100px;
-  justify-content: center;
-  /* align-items: center; */
-  /* align-self: center; */
-  /* @media (min-width: 769px) and (max-width: 1024px){
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    grid-template-rows: 1fr 1fr;
+    column-gap: 30px;
+    row-gap: 40px;
+    background-color: #b8c1ec;
+    max-width: 100vw;
+    min-height: 90vh;
+    padding: 50px 100px;
+    justify-content: center;
+    /* align-items: center; */
+    /* align-self: center; */
+    /* @media (min-width: 769px) and (max-width: 1024px){
         grid-template-columns: 300px 300px 300px;
     };
     @media (min-width: 481px) and (max-width: 768px){
@@ -132,65 +132,66 @@ const ContainerDoServico = styled.div`
 
 export default class ListaDeServicos extends Component {
   render() {
-    const listaDeServicosAVenda = this.props.listaDeServicos.map(
+    const listaDeServicosAVenda = this.props.listaDeServicos
+    // .filter(servico =>{
+    //   servico.title.includes(this.props.inputBuscaListaDeServicos)
+    // })
+    .map(
       (servico, index) => {
         return (
-          <ContainerDoServico key={index}>
-            <h5>{servico.title}</h5>
-            <img
-              alt="Imagem gerada de forma aleatória"
-              src={this.props.randomLink()}
-            ></img>
-            <div>
-              <p>
-                <strong>Prazo: </strong>
-                {() => this.props.formatarStringParaData(servico.dueDate)}
-              </p>
-              <p>
-                <strong>Preço: </strong>R${servico.price}
-              </p>
-            </div>
+            <ContainerDoServico 
+            onClick={() => this.props.entrarNosDetalhesDoJobEscolhido(servico)} 
+            key={index}>
+    
+                <h5>{servico.title}</h5>
+                <img alt="Imagem gerada de forma aleatória" src={this.props.randomLink()}></img>
+                <div>
+                    <p><strong>Prazo: </strong>{() => this.props.formatarStringParaData(servico.dueDate)}</p>
+                    <p><strong>Preço: </strong>R${servico.price}</p>
+                </div>
 
-            <button>
-              <strong>Adicionar ao Carrinho</strong>
-            </button>
-          </ContainerDoServico>
-        );
-      }
-    );
-    return (
-      <Body>
-        <Header>
-          <button>Home</button>
+                <button type="button" onClick={(e) => { e.stopPropagation();
+                this.props.adicionarCarrinho()
+                }}>
+                    <strong>Adicionar ao Carrinho</strong>
+                </button>
+            </ContainerDoServico>
+        )})
+        return(
+          <Body>
+            <Header>
+              <input
+                value={this.props.inputBuscaListaDeServicos}
+                onChange={this.props.onChangeInputBuscaListaDeServicos}
+                placeholder="Insira o nome do serviço."
+              />
 
-          <input
-            value={this.props.inputBuscaListaDeServicos}
-            onChange={this.props.onChangeInputBuscaListaDeServicos}
-            placeholder="Insira o nome do serviço."
-          />
+              <button>Carrinho</button>
+            </Header>
 
-          <button>Carrinho</button>
-        </Header>
+            <Filtros>
+              <div>
+                <input placeholder="Valor Mínimo" />
+                <input placeholder="Valor Máximo" />
+                <input 
+                  value={this.props.inputBuscaListaDeServicos}
+                  onChange={this.props.onChangeInputBuscaListaDeServicos}
+                  placeholder="Buscar por título ou descrição" 
+                />
 
-        <Filtros>
-          <div>
-            <input placeholder="Valor Mínimo" />
-            <input placeholder="Valor Máximo" />
-            <input placeholder="Buscar por título ou descrição" />
-
-            <select name="escolaridade" id="escolaridade">
-              <option value={this.props.filtroOrdenacao}>Sem ordenação</option>
-              <option value={this.props.filtroOrdenacao}>Menor Valor</option>
-              <option value={this.props.filtroOrdenacao}>Maior Valor</option>
-              <option value={this.props.filtroOrdenacao}>Título</option>
-              <option value={this.props.filtroOrdenacao}>Prazo</option>
-            </select>
-          </div>
-        </Filtros>
-        <DisposicaoDaListaDeServicos>
-          {listaDeServicosAVenda}
-        </DisposicaoDaListaDeServicos>
-      </Body>
+                <select name="escolaridade" id="escolaridade">
+                  <option value={this.props.filtroOrdenacao}>Sem ordenação</option>
+                  <option value={this.props.filtroOrdenacao}>Menor Valor</option>
+                  <option value={this.props.filtroOrdenacao}>Maior Valor</option>
+                  <option value={this.props.filtroOrdenacao}>Título</option>
+                  <option value={this.props.filtroOrdenacao}>Prazo</option>
+                </select>
+              </div>
+            </Filtros>
+            <DisposicaoDaListaDeServicos>
+              {listaDeServicosAVenda}
+            </DisposicaoDaListaDeServicos>
+          </Body>
     );
   }
 }
