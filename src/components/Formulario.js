@@ -148,9 +148,9 @@ export default class Form extends React.Component {
           dataInicio: "",
         });
 
-        /* this.props.getAllJobs();
-          alert("Deu certo!");
-          console.log(res.data);*/
+        this.props.getAllJobs();
+        alert("Deu certo!");
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err.response.data.message);
