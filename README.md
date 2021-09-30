@@ -11,7 +11,7 @@ Everton Guedes
 Matheus Schade
 
 ## Link do Surge
-![Labeninjas](https://homeless-birds.surge.sh/)
+[Labeninjas](https://homeless-birds.surge.sh/)
 
 ## Pautas da Reunião
 
