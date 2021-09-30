@@ -9,27 +9,22 @@ const Header1 = styled.header`
   height: 80px;
   width: 100vw;
   padding: 20px 0;
-  /* border-bottom: 1px solid white */
 `;
 
 const BotaoLogo = styled.div`
-  button {
-    cursor: pointer;
-    height: 50px;
-    width: 50px;
-    background-color: #eebbc3;
-    border-radius: 7px;
-    border: none;
-  }
-  img {
-    height: 50px;
-    /* width: 50px; */
 
+  img {
+    cursor: pointer;
+    height: 70px;
+    width: 70px;
+    background-color: #eebbc3;
     border-radius: 7px;
     border: none;
-    /* height: 100%; */
-    max-width: 100%;
-    background-color: #eebbc3;
+    transition: all 0.2s ease-in 50ms;
+  }
+    img:hover {
+      background-color: #F6DDE1;
+      transition: all 0.2s ease-out 50ms;
   }
 `;
 
@@ -57,9 +52,7 @@ export default class Cabecalho extends React.Component {
         return (
           <Header1>
             <BotaoLogo>
-              <button onClick={() => this.props.trocarDePagina("home")}>
-                <img src={Logo} />
-              </button>
+                <img onClick={() => this.props.trocarDePagina("home")} src={Logo} />
             </BotaoLogo>
             <ButtonsHeader
               onClick={() => this.props.trocarDePagina("carrinho")}
@@ -73,9 +66,7 @@ export default class Cabecalho extends React.Component {
         return (
           <Header1>
             <BotaoLogo>
-              <button onClick={() => this.props.trocarDePagina("carrinho")}>
-                <img src={Logo} />
-              </button>
+                <img onClick={() => this.props.trocarDePagina("home")} src={Logo} />
             </BotaoLogo>
             <ButtonsHeader onClick={() => this.props.trocarDePagina("home")}>
               Carrinho
@@ -86,9 +77,7 @@ export default class Cabecalho extends React.Component {
         return (
           <Header1>
             <BotaoLogo>
-              <button onClick={() => this.props.trocarDePagina("home")}>
-                <img src={Logo} />
-              </button>
+                <img onClick={() => this.props.trocarDePagina("home")} src={Logo} />
             </BotaoLogo>
             <div>
               <ButtonsHeader
@@ -109,9 +98,7 @@ export default class Cabecalho extends React.Component {
         return (
           <Header1>
             <BotaoLogo>
-              <button onClick={() => this.props.trocarDePagina("home")}>
-                <img src={Logo} />
-              </button>
+                <img onClick={() => this.props.trocarDePagina("home")} src={Logo} />
             </BotaoLogo>
             <ButtonsHeader
               onClick={() => this.props.trocarDePagina("cadastro")}
@@ -124,9 +111,7 @@ export default class Cabecalho extends React.Component {
         return (
           <Header1>
             <BotaoLogo>
-              <button onClick={() => this.props.trocarDePagina("home")}>
-                <img src={Logo} />
-              </button>
+                <img onClick={() => this.props.trocarDePagina("home")} src={Logo} />
             </BotaoLogo>
             <ButtonsHeader
               onClick={() => this.props.trocarDePagina("carrinho")}

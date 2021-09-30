@@ -1,5 +1,4 @@
 import React from "react";
-import Axios from "axios";
 import styled from "styled-components";
 import Cabecalho from "./Cabecalho";
 
@@ -24,28 +23,34 @@ const CadaItemDoCarrinho = styled.div`
   height: 6em;
   width: 500px;
   border: 1px solid #121629;
-  border-radius: 3px;
+  border-radius: 7px;
   padding: 0 25px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin-top: 10px;
   margin-bottom: 15px;
+  border-radius: 7px;
+
   button {
     height: 28px;
     width: 100px;
-    cursor: pointer;
-    font-weight: bold;
     background-color: #eebbc3;
-    border: 1px solid #121629;
+    border: none;
+    border-radius: 7px;
+    color: #232946;
+    cursor: pointer;
+    transition: all 0.2s ease-out 50ms;
+    font-weight: bold;
+    :hover {
+      color: white;
+      background-color: #bf999f;
+      transition: all 0.2s ease-out 50ms;
+    }
   }
-`;
-
-const Button = styled.button`
-  height: 28px;
-  width: 100px;
-  cursor: pointer;
-  font-weight: bold;
+  h5 {
+    margin: 0;
+  }
 `;
 
 const CarrinhoVazio = styled.div`
@@ -89,6 +94,7 @@ const CardTotal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 7px;
 `;
 
 const Box3Buttons = styled.div`
@@ -96,17 +102,62 @@ const Box3Buttons = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 500px;
+  button { 
+    background-color: #eebbc3;
+    font-weight: bold;
+    border: none;
+    border-radius: 7px;
+    padding: 8px;
+    color: #232946;
+    cursor: pointer;
+    transition: all 0.2s ease-in 50ms;
+  }
+    button:hover {
+      color: white;
+      background-color: #bf999f;
+      transition: all 0.2s ease-out 50ms;
+    }
 `;
+
+const CardItemCarrinho = styled.div`
+width: 350px;
+margin: 0;
+padding: 0;
+height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+h3 {
+  text-align:left;
+  font-size: 18px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 350px;
+  margin: 0;
+}
+`
+const TituloPreco = styled.div`
+display:flex;
+flex-direction:column;
+align-items: space-around;
+justify-content: center;
+margin: 0;
+padding: 0;
+`
 
 export default class Carrinho extends React.Component {
   render() {
     const itensCarrinho = this.props.cart.map((servico, index, array) => {
       return (
         <CadaItemDoCarrinho key={servico.id}>
-          <div>
-            <h3>{servico.title}</h3>
+          <TituloPreco>
+            <CardItemCarrinho><h3>{servico.title}</h3></CardItemCarrinho>
             <h5>R$ {servico.price}</h5>
-          </div>
+          </TituloPreco>
 
           <button
             onClick={() =>
@@ -166,6 +217,7 @@ export default class Carrinho extends React.Component {
                 <h2>R${totalPrice.toFixed(2)}</h2>
               </CardTotal>
             </ValorAPagar>
+            <br /><br />
 
             <Box3Buttons>
               <button onClick={() => this.props.cleanCart()}>

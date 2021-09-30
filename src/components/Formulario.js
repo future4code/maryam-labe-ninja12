@@ -50,7 +50,6 @@ const RightSide = styled.div`
 `;
 
 const Forms = styled.form`
-  /* background-color: #fbf0ef; */
 
   h3 {
     text-align: center;
@@ -58,8 +57,6 @@ const Forms = styled.form`
   }
 
   div {
-    /* width: 320px;*/
-    /* background-color: black; */
     margin-bottom: 15px;
   }
 
@@ -108,17 +105,14 @@ export default class Form extends React.Component {
 
   handleTitulo = (event) => {
     this.setState({ titulo: event.target.value });
-    console.log("titulo");
   };
 
   handleDescricao = (event) => {
     this.setState({ descricao: event.target.value });
-    console.log("descr");
   };
 
   handlePreco = (event) => {
     this.setState({ preco: event.target.value });
-    console.log("preço");
   };
 
   handleMetodoDePagamento = (event) => {
@@ -127,12 +121,10 @@ export default class Form extends React.Component {
       (option) => option.value
     );
     this.setState({ metodoDePagamento: value });
-    console.log("Cliquei!");
   };
 
   handleDataInicio = (event) => {
     this.setState({ dataInicio: event.target.value });
-    console.log("datainicio");
   };
 
   cadastrarApi = (event) => {
@@ -159,10 +151,8 @@ export default class Form extends React.Component {
         this.props.getAllJobs();
         this.props.trocarDePagina("listaDeServicos");
         alert("Deu certo!");
-        console.log(res.data);
       })
       .catch((err) => {
-        console.log(err.response.data.message);
         alert(err);
       });
   };

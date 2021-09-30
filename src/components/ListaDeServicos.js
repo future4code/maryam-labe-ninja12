@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import App from "../App";
 import Cabecalho from "./Cabecalho";
 
 const Body = styled.div`
@@ -125,6 +124,24 @@ const ContainerDoServico = styled.div`
   }
 `;
 
+const DivTitulo = styled.div`
+  width: 200px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  p {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+`;
+
 export default class ListaDeServicos extends React.Component {
   render() {
     const listaDeServicosAVenda = this.props.listaDeServicos
@@ -169,7 +186,9 @@ export default class ListaDeServicos extends React.Component {
             key={servico.id}
             onClick={() => this.props.entrarNosDetalhesDoJobEscolhido(servico)}
           >
-            <h5>{servico.title}</h5>
+            <DivTitulo>
+              <p>{servico.title}</p>
+            </DivTitulo>
             <img
               alt="Imagem gerada de forma aleatória"
               src={this.props.randomLink()}
