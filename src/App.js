@@ -6,8 +6,16 @@ import Home from "./components/Home";
 import Form from "./components/Formulario";
 import Carrinho from "./components/Carrinho";
 import ListaDeServicos from "./components/ListaDeServicos";
-import DetalhesDoJob from './components/DetalhesDoJob';
-import Cabecalho from './components/Cabecalho'
+import DetalhesDoJob from "./components/DetalhesDoJob";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Gluten&display=swap');
+
+  h1 {
+    font-family: 'Gluten', cursive;
+  }
+`;
 
 const ContainerGeral = styled.div`
   box-sizing: border-box;
@@ -20,7 +28,6 @@ export default class App extends Component {
     listaDeServicos: [],
     inputBuscaPorNome: "",
     inputValorMaximo: "",
-    inputFiltroTituloOuDescricao: "",
     filtroOrdenacao: "title",
     paginaEscolhida: "home",
     cart: [],
@@ -29,12 +36,9 @@ export default class App extends Component {
   };
 
   getAllJobs = async () => {
-    console.log(url + "/jobs");
-
     await axios
       .get(url + "/jobs", headers)
       .then((response) => {
-        // console.log(response);
         this.setState({ listaDeServicos: response.data.jobs });
       })
       .catch((error) => {
@@ -48,7 +52,6 @@ export default class App extends Component {
 
   onChangeFiltroNome = (event) => {
     this.setState({ inputBuscaPorNome: event.target.value });
-    console.log(this.state.inputBuscaPorNome);
   };
 
   onChangeFiltroMinimo = (event) => {
@@ -68,7 +71,6 @@ export default class App extends Component {
   };
 
   pesquisarServicoNaLista = (pesquisa) => {
-    // funcaoDePesquisarComFiltro(pesquisa)
     this.setState({ inputBuscaListaDeServicos: "" });
   };
 
@@ -79,13 +81,12 @@ export default class App extends Component {
   };
 
   formatarStringParaData(data) {
-		let dataSplit = data.split("-")
-		let dia  = dataSplit[2].slice(0, 2);
-		let mes  = dataSplit[1];
-		let ano  = dataSplit[0];
-		return (dia + "/" + mes + "/" + ano)
-	}
-
+    let dataSplit = data.split("-");
+    let dia = dataSplit[2].slice(0, 2);
+    let mes = dataSplit[1];
+    let ano = dataSplit[0];
+    return dia + "/" + mes + "/" + ano;
+  }
 
   addToCart = (servico) => {
     const myCart = [...this.state.cart, servico];
@@ -93,21 +94,16 @@ export default class App extends Component {
     alert(
       `O serviço "${servico.title}"", no valor de R$${servico.price}, foi adicionado ao seu carrinho com sucesso!`
     );
-    console.log(servico.title);
-    console.log(this.state.cart);
   };
 
   entrarNosDetalhesDoJobEscolhido = (job) => {
-
-		this.setState({ jobEscolhido: job })
-		this.setState({ paginaEscolhida: "detalhesDoJob" })
-
-	}
+    this.setState({ jobEscolhido: job });
+    this.setState({ paginaEscolhida: "detalhesDoJob" });
+  };
 
   trocarDePagina = (nomeDaPagina) => {
-
-		this.setState({ paginaEscolhida: nomeDaPagina })
-	}
+    this.setState({ paginaEscolhida: nomeDaPagina });
+  };
 
   paginaAtual = () => {
     switch (this.state.paginaEscolhida) {
@@ -116,17 +112,14 @@ export default class App extends Component {
           <ListaDeServicos
             listaDeServicos={this.state.listaDeServicos}
             paginaEscolhida={this.state.paginaEscolhida}
-            inputBuscaListaDeServicos={this.state.inputBuscaListaDeServicos}
             inputValorMaximo={this.state.inputValorMaximo}
             filtroOrdenacao={this.state.filtroOrdenacao}
             atualizaFiltroOrdenacao={this.atualizaFiltroOrdenacao}
-            entrarNosDetalhesDoJobEscolhido={this.entrarNosDetalhesDoJobEscolhido}
+            entrarNosDetalhesDoJobEscolhido={
+              this.entrarNosDetalhesDoJobEscolhido
+            }
             randomLink={this.randomLink}
-            adicionarCarrinho={this.adicionarCarrinho}
             addToCart={this.addToCart}
-            cart={this.state.cart}
-            handleLista={this.handleLista}
-            handleCarrinho={this.handleCarrinho}
             inputBuscaPorNome={this.state.inputBuscaPorNome}
             onChangeFiltroNome={this.onChangeFiltroNome}
             onChangeFiltroMaximo={this.onChangeFiltroMaximo}
@@ -139,9 +132,6 @@ export default class App extends Component {
       case "home":
         return (
           <Home
-            handleCadastro={this.handleCadastro}
-            handleCarrinho={this.handleCarrinho}
-            handleLista={this.handleLista}
             trocarDePagina={this.trocarDePagina}
             paginaEscolhida={this.state.paginaEscolhida}
           />
@@ -149,33 +139,29 @@ export default class App extends Component {
       case "cadastro":
         return (
           <Form
-            handleCadastro={this.handleCadastro}
             getAllJobs={this.getAllJobs}
-            handleLista={this.handleLista}
             trocarDePagina={this.trocarDePagina}
           />
         );
       case "carrinho":
         return (
           <Carrinho
-            listaDeServicos={this.state.listaDeServicos}
             cart={this.state.cart}
-            handleLista={this.handleLista}
             cleanCart={this.cleanCart}
             paginaEscolhida={this.state.paginaEscolhida}
             onClickDeleteCart={this.onClickDeleteCart}
             onClickCheckout={this.onClickCheckout}
             trocarDePagina={this.trocarDePagina}
-          />);
-        
-        case "detalhesDoJob": 
+          />
+        );
+
+      case "detalhesDoJob":
         return (
           <DetalhesDoJob
-          jobEscolhido = {this.state.jobEscolhido}
-          paginaAtual = {this.paginaAtual}
-          trocarDePagina = {this.trocarDePagina}
-          randomLink = {this.randomLink}
-          addToCart={this.addToCart}
+            jobEscolhido={this.state.jobEscolhido}
+            trocarDePagina={this.trocarDePagina}
+            randomLink={this.randomLink}
+            addToCart={this.addToCart}
           />
         );
       default:
@@ -185,24 +171,10 @@ export default class App extends Component {
 
   onChangeFiltroMaximo = (event) => {
     this.setState({ inputValorMaximo: event.target.value });
-    console.log(this.state.inputValorMaximo);
   };
 
   onChangeFiltroMinimo = (event) => {
     this.setState({ inputMinimumValue: event.target.value });
-    console.log(this.state.inputMinimumValue);
-  };
-
-  handleCarrinho = () => {
-    this.setState({ paginaEscolhida: "carrinho" });
-  };
-
-  handleLista = () => {
-    this.setState({ paginaEscolhida: "listaDeServicos" });
-  };
-
-  handleCadastro = () => {
-    this.setState({ paginaEscolhida: "cadastro" });
   };
 
   cleanCart = () => {
@@ -215,28 +187,39 @@ export default class App extends Component {
       alert(
         `Seu carrinho foi esvaziado com sucesso! Você será redirecionado para a página com a lista de serviços`
       );
-      console.log("Limpou carrinho");
-      console.log(this.state.cart);
     }
   };
 
   onClickDeleteCart = (id, title) => {
-    if (window.confirm(`Tem certeza que deseja remover o produto "${title}"?`)) {
+    if (
+      window.confirm(`Tem certeza que deseja remover o produto "${title}"?`)
+    ) {
       const newCart = this.state.cart.filter((cartItem) => {
-        return cartItem.id !== id
-      })
-      this.setState({ cart: newCart })
+        return cartItem.id !== id;
+      });
+      this.setState({ cart: newCart });
     }
-  }
+  };
 
   onClickCheckout = () => {
-    if (window.confirm(`Deseja mesmo finalizar a sua compra e ir para o pagamento?`)) {
-      this.setState({ cart: [], paginaEscolhida: "listaDeServicos" })
-      alert(`Compra finalizada com sucesso. Você receberá por e-mail os contatos do profissional contratado!`)
+    if (
+      window.confirm(
+        `Deseja mesmo finalizar a sua compra e ir para o pagamento?`
+      )
+    ) {
+      this.setState({ cart: [], paginaEscolhida: "listaDeServicos" });
+      alert(
+        `Compra finalizada com sucesso. Você receberá por e-mail os contatos do profissional contratado!`
+      );
     }
-  }
+  };
 
   render() {
-    return <ContainerGeral>{this.paginaAtual()}</ContainerGeral>;
+    return (
+      <ContainerGeral>
+        <GlobalStyle />
+        {this.paginaAtual()}
+      </ContainerGeral>
+    );
   }
 }

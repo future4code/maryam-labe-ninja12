@@ -53,15 +53,12 @@ const DisposicaoDosDetalhesDoServico = styled.div`
     border: none;
     border-radius: 7px;
     padding: 8px;
-    -webkit-box-shadow: 6px 15px 25px -5px rgba(0, 0, 0, 0.57);
-    box-shadow: 6px 15px 25px -5px rgba(0, 0, 0, 0.57);
     font-weight: bold;
     :hover {
       color: white;
       background-color: #bf999f;
-      -webkit-box-shadow: 0px 0px 25px 2px rgba(191, 153, 159, 0.7);
-      box-shadow: 0px 0px 25px 2px rgba(191, 153, 159, 0.7);
       font-weight: bold;
+      transition: all 0.2s ease-out 50ms;
     }
   }
   ol {
@@ -72,8 +69,43 @@ const DisposicaoDosDetalhesDoServico = styled.div`
   }
 `;
 
+const DivTituloDetalhes = styled.div`
+  width: 300px;
+  max-height: 250px;
+  display: flex;
+  align-items: center;
+  h1 {
+    text-align: center;
+    margin: 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+`;
+
+const DivDescricaoDetalhes = styled.div`
+  width: 300px;
+  max-height: 290px;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 12;
+    -webkit-box-orient: vertical;
+  }
+`;
+
 export default class DetalhesDoJob extends Component {
+
   render() {
+    const metodosPagamento = this.props.jobEscolhido.paymentMethods.map(
+      (item) => {
+        return <li key={item.paymentMethods}>{item}</li>;
+      }
+    );
+
     return (
       <Body>
         <Header>
@@ -84,7 +116,9 @@ export default class DetalhesDoJob extends Component {
         </Header>
 
         <DisposicaoDosDetalhesDoServico>
-          <h1>{this.props.jobEscolhido.title}</h1>
+          <DivTituloDetalhes>
+            <h1>{this.props.jobEscolhido.title}</h1>
+          </DivTituloDetalhes>
           <img
             alt="Imagem gerada de forma aleatória"
             src={this.props.randomLink()}
@@ -92,8 +126,11 @@ export default class DetalhesDoJob extends Component {
           <div>
             <p>
               <strong>Descrição: </strong>
-              {this.props.jobEscolhido.description}
             </p>
+            <DivDescricaoDetalhes>
+              <p>{this.props.jobEscolhido.description}</p>
+            </DivDescricaoDetalhes>
+
             <p>
               <strong>Preço:</strong> R$ {this.props.jobEscolhido.price}
             </p>
@@ -101,7 +138,7 @@ export default class DetalhesDoJob extends Component {
               <strong>Formas de Pagamento aceitas: </strong>
             </p>
             <ol>
-              <li>{this.props.jobEscolhido.paymentMethods}</li>
+              <li>{metodosPagamento}</li>
             </ol>
           </div>
           <BotoesInferiores>
