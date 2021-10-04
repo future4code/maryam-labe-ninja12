@@ -1,4 +1,4 @@
-## Nome do Grupo
+## nome do Grupo
 
 Maryam-labe-ninja12
 
